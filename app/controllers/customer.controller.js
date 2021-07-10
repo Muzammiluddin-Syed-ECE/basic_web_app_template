@@ -1,3 +1,17 @@
+/**
+ * GENERIC CONTROLLER:
+ *  - 1 create
+ *  - 2 findAll
+ *  - 3 findOne
+ *  - 4 update
+ *  - 5 delete
+ *  - 6 deleteAll
+ */
+
+
+
+
+
 const Customer = require("../models/customer.model.js");
 
 // Create and Save a new Customer
