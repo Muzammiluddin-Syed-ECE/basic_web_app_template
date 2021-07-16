@@ -1,3 +1,5 @@
-var objects = ['', 'expense-report', 'transaction']
+var objects = [
+    'expense-report', 'transaction'
+]
 
 export default { TemplatedObjects: objects };

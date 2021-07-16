@@ -18,12 +18,13 @@ var cookieParser = require('cookie-parser');
 var compression = require('compression');
 var helmet = require('helmet');
 var createError = require('http-errors');
+var fileUpload = require('express-fileupload');
 
 var app = express();
 
 // 1 parse requests of content-type - application/x-www-form-urlencoded can parse incoming Request Object if object, with nested objects, or generally any type. 
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 // 2 morgan 
 app.use(logger('dev'));
@@ -33,11 +34,14 @@ app.use(cookieParser());
 app.use(compression());
 // 5 helmet
 app.use(helmet());
+// 8 file upload
+app.use(fileUpload({
+  createParentPath: true
+}));
 
 //database connection
 var mongoose = require('mongoose');
-var dev_db_url = 'mongodb+srv://cooluser:coolpassword@cluster0.a9azn.mongodb.net/local_library?retryWrites=true';
-var mongoDB = process.env.MONGODB_URI || dev_db_url;
+var mongoDB = process.env.MONGODB_URI;
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
