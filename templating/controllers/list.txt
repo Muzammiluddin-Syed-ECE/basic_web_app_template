@@ -1,0 +1,10 @@
+router.post('<path>', function(req, res, next) {
+    var schema = {
+        <schema_props><key>: req.body["<key>"],
+    }
+    model_list("<model>", schema)
+    .then(list_of_obj => { 
+        <res_config>['list_of_obj'] = list_of_obj;
+        res.render('<model>-list-all', <res_config>); 
+    });
+});

@@ -1,0 +1,10 @@
+router.post('<path>', function(req, res, next) {
+    var schema = {
+        <schema_props><key>: req.body["<key>"],
+    }
+    model_find_one("<model>", schema)
+    .then(obj_schema => { 
+        <res_config>['obj_schema'] = obj_schema;
+        res.render('<model>-list-one', <res_config>); 
+    });
+});

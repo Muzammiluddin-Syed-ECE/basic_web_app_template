@@ -1,0 +1,15 @@
+router.post('<path>', function(req, res, next) {
+    var schema = {
+        <schema_props><key>: req.body["<key>"],
+    }
+    model_create("<model>", schema)
+    .then(new_obj_schema => { return find_one(new_obj_schema); })
+    .then(new_obj_schema => {
+        res.redirect(url.format({
+            pathname:"/<redirect_path>",
+            query: {
+                "_id":new_obj_schema["_id"],
+            }
+        }));
+    });
+});
