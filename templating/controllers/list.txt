@@ -1,3 +1,17 @@
+// Display list of all Authors.
+exports.<model>_list = function (req, res, next) {
+
+    <model_cap>.find()
+        .sort([['<sort_prop>', 'ascending']])
+        .exec(function (err, list_authors) {
+            if (err) { return next(err); }
+            // Successful, so render.
+            res.render('<model>_list', { title: '<model_cap> List', <model>_list: list_<model> });
+        })
+
+};
+
+/*
 router.post('<path>', function(req, res, next) {
     var schema = {
         <schema_props><key>: req.body["<key>"],
@@ -8,3 +22,4 @@ router.post('<path>', function(req, res, next) {
         res.render('<model>-list-all', <res_config>); 
     });
 });
+*/

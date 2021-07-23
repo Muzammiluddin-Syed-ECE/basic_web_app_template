@@ -1,4 +1,61 @@
-router.post('<path>', function(req, res, next) {
+// Display <model_cap> delete form on GET.
+exports.<model>_delete_get = function (req, res, next) {
+
+    async.parallel({
+        <model>: function (callback) {
+            <model_cap>.findById(req.params.id).exec(callback)
+        },
+        <repeat_related_field
+        <model>_<related_field>: function (callback) {
+            <related_field_cap>.find({ '<model>': req.params.id }).exec(callback)
+        },
+        />
+    }, function (err, results) {
+        if (err) { return next(err); }
+        if (results.<model> == null) { // No results.
+            res.redirect('/<model>');
+        }
+        // Successful, so render.
+        res.render('<model>_delete', { title: 'Delete <model_cap>', <model>: results.<model>, <model>_<related_field>: results.<model>_<related_field> });
+    });
+
+};
+
+// Handle <model_cap> delete on POST.
+exports.<model>_delete_post = function (req, res, next) {
+
+    async.parallel({
+        <model>: function (callback) {
+            <model_cap>.findById(req.body.<model>id).exec(callback)
+        },
+        <repeat_related_field
+        <model>_<related_field>: function (callback) {
+            Book.find({ '<model>': req.body.<model>id }).exec(callback)
+        },
+        >
+    }, function (err, results) {
+        if (err) { return next(err); }
+        // Success.
+        if (results.<model>_<related_field>.length > 0) {
+            // <model_cap> has <related_field>. Render in same way as for GET route.
+            res.render('<model>_delete', { title: 'Delete <model_cap>', <model>: results.<model>, <model>_<related_field>: results.<model>_<related_field> });
+            return;
+        }
+        else {
+            // <model_cap> has no <related_field>. Delete object and redirect to the list of <model>s.
+            <model_cap>.findByIdAndRemove(req.body.<model>id, function delete<model_cap>(err) {
+                if (err) { return next(err); }
+                // Success - go to <model> list.
+                res.redirect('/<model>')
+            })
+
+        }
+    });
+
+};
+
+
+/*router.post('<path>', function(req, res, next) {
     var schema = {
         <schema_props><key>: req.body["<key>"],
     }
@@ -9,4 +66,4 @@ router.post('<path>', function(req, res, next) {
             query: {}
         }));
     });
-});
+});*/

@@ -1,3 +1,44 @@
+// Display <model_cap> create form on GET.
+exports.<model>_create_get = function (req, res, next) {
+    res.render('<model>_form', { title: 'Create <model_cap>' });
+};
+
+// Handle <model_cap> create on POST.
+exports.<model>_create_post = [
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+        
+        // Create <model_cap> object with escaped and trimmed data
+        var <model> = new <model_cap>(
+            {
+                <schema_props><key>: req.body["<key>"],
+            }
+        );
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render form again with sanitized values/errors messages.
+            res.render('<model>_form', { title: 'Create <model_cap>', <model>: <model>, errors: errors.array() });
+            return;
+        }
+        else {
+            // Data from form is valid.
+
+            // Save <model>.
+            <model>.save(function (err) {
+                if (err) { return next(err); }
+                // Successful - redirect to new <model> record.
+                res.redirect(<model>.url);
+            });
+        }
+    }
+];
+
+
+/*
 router.post('<path>', function(req, res, next) {
     var schema = {
         <schema_props><key>: req.body["<key>"],
@@ -13,3 +54,4 @@ router.post('<path>', function(req, res, next) {
         }));
     });
 });
+*/

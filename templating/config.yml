@@ -1,0 +1,25 @@
+project_name: Web App Template
+
+# Repository
+repo_name:  Web App Template
+repo_url: https://github.com/Muzammiluddin-Syed-ECE/ByteToEat
+
+#Config
+
+Models:
+  
+  author:
+    first_name: { type: String, required: true, maxLength: 100 }
+    family_name: { type: String, required: true, maxLength: 100 }
+    date_of_birth: { type: Date }
+    date_of_death: { type: Date }
+  
+  book:
+    title: {type: String, required: true},
+    author: { type: Schema.ObjectId, ref: 'Author', required: true },
+    summary: {type: String, required: true},
+    isbn: {type: String, required: true},
+    genre: [{ type: Schema.ObjectId, ref: 'Genre' }]
+  bookinstance:
+  genre:
+

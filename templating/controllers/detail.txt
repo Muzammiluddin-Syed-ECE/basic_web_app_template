@@ -1,0 +1,40 @@
+// Display detail page for a specific <model>.
+exports.<model>_detail = function (req, res, next) {
+
+    async.parallel({
+        <model>: function (callback) {
+            <model>.findById(req.params.id)
+                .exec(callback)
+        },
+        <repeat_related_field
+        <model>_<related_field>: function (callback) {
+            <realted_field_cap>.find({ '<model>': req.params.id }, 'title summary')
+                .exec(callback)
+        },
+        />
+    }, function (err, results) {
+        if (err) { return next(err); } // Error in API usage.
+        if (results.<model> == null) { // No results.
+            var err = new Error('<model> not found');
+            err.status = 404;
+            return next(err);
+        }
+        // Successful, so render.
+        res.render('<model>_detail', { title: '<model> Detail', <model>: results.<model>, <model>_books: results.<model>_books });
+    });
+
+};
+
+
+/*
+router.post('<path>', function(req, res, next) {
+    var schema = {
+        <schema_props><key>: req.body["<key>"],
+    }
+    model_find_one("<model>", schema)
+    .then(obj_schema => { 
+        <res_config>['obj_schema'] = obj_schema;
+        res.render('<model>-list-one', <res_config>); 
+    });
+});
+*/

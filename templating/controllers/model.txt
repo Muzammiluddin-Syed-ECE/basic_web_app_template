@@ -1,0 +1,19 @@
+var mongoose = require('mongoose');
+const { DateTime } = require("luxon");  //for date handling
+
+var Schema = mongoose.Schema;
+
+var <model_cap>Schema = new Schema({
+
+  <schema_props><key>: <key_description>,
+  
+});
+
+// Virtual for this <model> instance URL.
+<model_cap>Schema.virtual('url').get(function() {
+  return '/<model>/' + this._id;
+});
+
+
+// Export model.
+module.exports = mongoose.model('<model_cap>', <model_cap>Schema);

@@ -1,3 +1,51 @@
+// Display <model_cap> update form on GET.
+exports.<model>_update_get = function (req, res, next) {
+
+    <model_cap>.findById(req.params.id, function (err, <model>) {
+        if (err) { return next(err); }
+        if (<model> == null) { // No results.
+            var err = new Error('<model_cap> not found');
+            err.status = 404;
+            return next(err);
+        }
+        // Success.
+        res.render('<model>_form', { title: 'Update <model_cap>', <model>: <model> });
+
+    });
+};
+
+// Handle <model_cap> update on POST.
+exports.<model>_update_post = [
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create <model_cap> object with escaped and trimmed data (and the old id!)
+        var <model> = new <model_cap>(
+            {
+                <schema_props><key>: req.body["<key>"],
+            }
+        );
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render the form again with sanitized values and error messages.
+            res.render('<model>_form', { title: 'Update <model_cap>', <model>: <model>, errors: errors.array() });
+            return;
+        }
+        else {
+            // Data from form is valid. Update the record.
+            <model_cap>.findByIdAndUpdate(req.params.id, <model>, {}, function (err, the<model>) {
+                if (err) { return next(err); }
+                // Successful - redirect to genre detail page.
+                res.redirect(the<model>.url);
+            });
+        }
+    }
+];
+/*
 router.post('<path>', function(req, res, next) {
     var schema = {
         <schema_props><key>: req.body["<key>"],
@@ -12,3 +60,4 @@ router.post('<path>', function(req, res, next) {
         }));
     });
 });
+*/
