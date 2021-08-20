@@ -7,7 +7,6 @@ repo_url: https://github.com/Muzammiluddin-Syed-ECE/ByteToEat
 #Config
 
 Models:
-  
   author:
     first_name: { type: String, required: true, maxLength: 100 }
     family_name: { type: String, required: true, maxLength: 100 }

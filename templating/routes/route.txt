@@ -1,0 +1,49 @@
+var express = require('express');
+var router = express.Router();
+
+
+// Require our controllers.
+<repeat_model<var <model>_controller = require('../controllers/<model>Controller'); 
+>repeat_model>
+
+/*var express = require('express');
+const <service><service_name> = require('../services/<service_name>.js');
+const {
+    <database_functions>,
+} = require('../services/mongodb.js');
+var router = express.Router();
+const url = require('url');*/    
+
+// GET catalog home page.
+router.get('/', <model>_controller.index);  
+
+<repeat_model<
+
+/// <model> ROUTES ///
+
+// GET request for creating a <model>. NOTE This must come before routes that display <model> (uses id).
+router.get('/<model>/create', <model>_controller.<model>_create_get);
+
+// POST request for creating <model>.
+router.post('/<model>/create', <model>_controller.<model>_create_post);
+
+// GET request to delete <model>.
+router.get('/<model>/:id/delete', <model>_controller.<model>_delete_get);
+
+// POST request to delete <model>.
+router.post('/<model>/:id/delete', <model>_controller.<model>_delete_post);
+
+// GET request to update <model>.
+router.get('/<model>/:id/update', <model>_controller.<model>_update_get);
+
+// POST request to update <model>.
+router.post('/<model>/:id/update', <model>_controller.<model>_update_post);
+
+// GET request for one <model>.
+router.get('/<model>/:id', <model>_controller.<model>_detail);
+
+// GET request for list of all <model>.
+router.get('/<model>s', <model>_controller.<model>_list);
+
+>repeat_model>
+module.exports = router;

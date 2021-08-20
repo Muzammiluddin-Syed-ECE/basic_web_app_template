@@ -3,7 +3,7 @@ var router = express.Router();
 
 
 // Require our controllers.
-<models>var <model>_controller = require('../controllers/<model>Controller'); 
+<models>var books_controller = require('../controllers/booksController'); 
 
 /*var express = require('express');
 const <service><service_name> = require('../services/<service_name>.js');

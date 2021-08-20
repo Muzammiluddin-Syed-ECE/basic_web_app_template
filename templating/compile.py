@@ -1,6 +1,15 @@
 import os
 import glob
 import re
+from translation import Translator
+
+options = {
+    "props":[{"key":"id","key_description":"kid"},{"key":"id1","key_description":"kid1"}],
+    "model":"books",
+    "related_fields":['school', 'subject'],
+    "models":["book","school","subject"]
+}
+
 
 print("working")
 # schema_props
@@ -38,20 +47,56 @@ def schemaProps(line):
         yield new_line
 
 path = os.getcwd()
-for filename in glob.iglob(f'{path}/controllers/*'):
-    extracted_fname = re.search("[a-z]+.txt", filename).group()
-    extracted_fname = re.sub(".txt", ".js", extracted_fname)
-    f = open(filename, "r")
-    f2 = open(extracted_fname, "w")
-    lines = f.readlines()
-    
-    new_lines = []
+
+
+
+models = ["book","school","subject"]
+for model in models:
+    options["model"] = model
+    new_obj = Translator(options)
+    """controllerfile = open(f'{path}/controller.txt', "r")
+    fulllines= controllerfile.read()
+    for filename in glob.iglob(f'{path}/controllers/*txt'):
+        extracted_fname = re.search("[a-z]+.txt", filename).group()
+        extracted_fname = model+re.sub(".txt", ".js", extracted_fname)
+        f = open(filename, "r")
+        #f2 = open(extracted_fname, "w")
+        lines = f.read()
+        fulllines = fulllines.replace("<controller>", new_obj.translate(lines) + "\n\n<controller>")
+        fulllines = new_obj.translate(fulllines)
+    fulllines = fulllines.replace("<controller>","")
+    controllerwrite = open (f'{path}/controllers/{model}Controller.js', "w")
+    controllerwrite.write(fulllines)
+    """
+    routefile = open(f'{path}/models/model.txt', "r")
+    print("1")
+    mylines = routefile.read()
+    print("2")
+    mylines = new_obj.translate(mylines)
+    print("3")
+    routew = open(f'{path}/models/{model}.js', "w")
+    print("4")
+    routew.write(mylines)
+    print("5")
+
+routefile = open(f'{path}/routes/route.txt', "r")
+print("1")
+mylines = routefile.read()
+print("2")
+mylines = new_obj.translate(mylines)
+print("3")
+routew = open(f'{path}/routes/routes.js', "w")
+print("4")
+routew.write(mylines)
+print("5")
+
+"""new_lines = []
     
     for line in lines:
         
         for new_line in processLine(line):
-            print(new_line)
+            #print(new_line)
             f2.write(new_line)
 
 
-
+"""

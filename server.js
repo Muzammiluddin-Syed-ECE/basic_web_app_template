@@ -56,7 +56,7 @@ app.set('view engine', 'pug');
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.render("index",{});
 });
 
 // routing

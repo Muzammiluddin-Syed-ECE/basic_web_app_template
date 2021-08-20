@@ -26,9 +26,7 @@ exports.<model>_update_post = [
         // Create <model_cap> object with escaped and trimmed data (and the old id!)
         var <model> = new <model_cap>(
             {
-                <schema_props<
-                <key>: req.body["<key>"],
-                >schema_props>
+                <schema_props><key>: req.body["<key>"],
             }
         );
 
@@ -47,3 +45,19 @@ exports.<model>_update_post = [
         }
     }
 ];
+/*
+router.post('<path>', function(req, res, next) {
+    var schema = {
+        <schema_props><key>: req.body["<key>"],
+    }
+    model_update("<model>", schema)
+    .then(new_obj_schema => {
+        res.redirect(url.format({
+            pathname:"/<redirect_path>",
+            query: {
+                "_id":new_obj_schema["_id"],
+            }
+        }));
+    });
+});
+*/

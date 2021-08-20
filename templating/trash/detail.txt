@@ -6,12 +6,12 @@ exports.<model>_detail = function (req, res, next) {
             <model>.findById(req.params.id)
                 .exec(callback)
         },
-        <repeat_related_field<
+        <repeat_related_field
         <model>_<related_field>: function (callback) {
-            <related_field_cap>.find({ '<model>': req.params.id }, 'title summary')
+            <realted_field_cap>.find({ '<model>': req.params.id }, 'title summary')
                 .exec(callback)
         },
-        >repeat_related_field>
+        />
     }, function (err, results) {
         if (err) { return next(err); } // Error in API usage.
         if (results.<model> == null) { // No results.
@@ -24,3 +24,17 @@ exports.<model>_detail = function (req, res, next) {
     });
 
 };
+
+
+/*
+router.post('<path>', function(req, res, next) {
+    var schema = {
+        <schema_props><key>: req.body["<key>"],
+    }
+    model_find_one("<model>", schema)
+    .then(obj_schema => { 
+        <res_config>['obj_schema'] = obj_schema;
+        res.render('<model>-list-one', <res_config>); 
+    });
+});
+*/

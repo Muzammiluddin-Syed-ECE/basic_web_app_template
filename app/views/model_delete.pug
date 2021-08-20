@@ -1,0 +1,29 @@
+extends layout
+
+block content
+
+  h1 #{title}: #{model.title}
+  each field in model.fields
+    p #{field}
+  
+  each related_field in model.related_fields
+    if related_field.length
+        p #[strong Delete the following before attempting to delete this.]
+    
+        div(style='margin-left:20px;margin-top:20px')
+
+        h4 #{model}
+        
+        dl
+        each item in related_field
+            dt 
+            a(href=item.url) #{item.title}
+
+  else
+    p Do you really want to delete this #{model.title}?
+    
+    form(method='POST' action='')
+      div.form-group
+        input#modelid.form-control(type='hidden',name='modelid', required='true', value=model._id )
+
+      button.btn.btn-primary(type='submit') Delete
