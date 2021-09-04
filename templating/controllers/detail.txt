@@ -3,7 +3,7 @@ exports.<model>_detail = function (req, res, next) {
 
     async.parallel({
         <model>: function (callback) {
-            <model>.findById(req.params.id)
+            <model_cap>.findById(req.params.id)
                 .exec(callback)
         },
         <repeat_related_field<
@@ -20,7 +20,7 @@ exports.<model>_detail = function (req, res, next) {
             return next(err);
         }
         // Successful, so render.
-        res.render('<model>_detail', { title: '<model> Detail', <model>: results.<model>, <model>_books: results.<model>_books });
+        res.render('detail', { title: '<model> Detail', <model>: results.<model>, <model>_books: results.<model>_books });
     });
 
 };

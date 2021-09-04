@@ -1,0 +1,30 @@
+extends layout
+
+block content
+
+  h1 Delete: #{title}
+  each field in fields 
+    p #{field.key} : #{field.value}
+  
+  if related_fields.length
+  
+    p #[strong Delete the following before attempting to delete this.]
+  
+    div(style='margin-left:20px;margin-top:20px')
+
+      h4 Books
+    
+      dl
+      each book in author_books
+        dt 
+          a(href=book.url) #{book.title}
+        dd #{book.summary}
+
+  else
+    p Do you really want to delete this?
+    
+    form(method='POST' action='')
+      div.form-group
+        input#authorid.form-control(type='hidden',name='authorid', required='true', value=author._id )
+
+      button.btn.btn-primary(type='submit') Delete

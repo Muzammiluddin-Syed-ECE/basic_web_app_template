@@ -1,6 +1,6 @@
-var <model> = require('../models/<model>')
+var <model_cap> = require('../models/<model>')
 var async = require('async')
-<repeat_related_field<var <related_field> = require('../models/<related_field>')
+<repeat_related_field<var <related_field_cap> = require('../models/<related_field>')
 >repeat_related_field>
 
 <controller>

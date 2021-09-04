@@ -4,7 +4,7 @@ import re
 from translation import Translator
 
 options = {
-    "props":[{"key":"id","key_description":"kid"},{"key":"id1","key_description":"kid1"}],
+    "props":[{"key":"first_name","key_description":"{ type: String, required: true, maxLength: 100 }"},{"key":"family_name","key_description":"{ type: String, required: true, maxLength: 100 }"}],
     "model":"books",
     "related_fields":['school', 'subject'],
     "models":["book","school","subject"]
@@ -54,7 +54,7 @@ models = ["book","school","subject"]
 for model in models:
     options["model"] = model
     new_obj = Translator(options)
-    """controllerfile = open(f'{path}/controller.txt', "r")
+    controllerfile = open(f'{path}/controller.txt', "r")
     fulllines= controllerfile.read()
     for filename in glob.iglob(f'{path}/controllers/*txt'):
         extracted_fname = re.search("[a-z]+.txt", filename).group()
@@ -67,7 +67,7 @@ for model in models:
     fulllines = fulllines.replace("<controller>","")
     controllerwrite = open (f'{path}/controllers/{model}Controller.js', "w")
     controllerwrite.write(fulllines)
-    """
+    
     routefile = open(f'{path}/models/model.txt', "r")
     print("1")
     mylines = routefile.read()

@@ -39,6 +39,8 @@ app.use(fileUpload({
   createParentPath: true
 }));
 
+var router = require('./templating/routes/routes.js')
+
 //database connection
 var mongoose = require('mongoose');
 var mongoDB = process.env.MONGODB_URI;
@@ -51,7 +53,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.use(express.static(path.join(__dirname, 'app', 'public')));
 
 //views engine
-app.set('views', path.join(__dirname, 'app', 'views'));
+app.set('views', path.join(__dirname, 'templating','views'));
 app.set('view engine', 'pug');
 
 // simple route
@@ -61,13 +63,14 @@ app.get("/", (req, res) => {
 
 // routing
 //bezkoder version: require("./app/routes/customer.routes.js")(app);
-app
+app.use('/', router)
 
 // set port, listen for requests
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

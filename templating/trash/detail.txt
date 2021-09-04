@@ -3,7 +3,7 @@ exports.<model>_detail = function (req, res, next) {
 
     async.parallel({
         <model>: function (callback) {
-            <model>.findById(req.params.id)
+            <model_cap>.findById(req.params.id)
                 .exec(callback)
         },
         <repeat_related_field

@@ -15,7 +15,7 @@ exports.<model>_delete_get = function (req, res, next) {
             res.redirect('/<model>');
         }
         // Successful, so render.
-        res.render('<model>_delete', { title: 'Delete <model_cap>', <model>: results.<model>, <model>_<related_field>: results.<model>_<related_field> });
+        res.render('delete', { title: 'Delete <model_cap>', <model>: results.<model>, <model>_<related_field>: results.<model>_<related_field> });
     });
 
 };
@@ -36,7 +36,7 @@ exports.<model>_delete_post = function (req, res, next) {
         // Success.
         if (results.<model>_<related_field>.length > 0) {
             // <model_cap> has <related_field>. Render in same way as for GET route.
-            res.render('<model>_delete', { title: 'Delete <model_cap>', <model>: results.<model>, <model>_<related_field>: results.<model>_<related_field> });
+            res.render('delete', { title: 'Delete <model_cap>', <model>: results.<model>, <model>_<related_field>: results.<model>_<related_field> });
             return;
         }
         else {

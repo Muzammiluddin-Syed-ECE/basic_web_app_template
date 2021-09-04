@@ -5,8 +5,8 @@ var Schema = mongoose.Schema;
 
 var SchoolSchema = new Schema({
 
-  id: kid,
-  id1: kid1,
+  first_name: { type: String, required: true, maxLength: 100 },
+  family_name: { type: String, required: true, maxLength: 100 },
   
 });
 

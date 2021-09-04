@@ -1,16 +1,16 @@
-var books = require('../models/books')
+var School = require('../models/school')
 var async = require('async')
-var school = require('../models/school')
-var subject = require('../models/subject')
+var School = require('../models/school')
+var Subject = require('../models/subject')
 
 
-// Display Books create form on GET.
-exports.books_create_get = function (req, res, next) {
-    res.render('books_form', { title: 'Create Books' });
+// Display School create form on GET.
+exports.school_create_get = function (req, res, next) {
+    res.render('form', { title: 'Create School' });
 };
 
-// Handle Books create on POST.
-exports.books_create_post = [
+// Handle School create on POST.
+exports.school_create_post = [
 
     // Process request after validation and sanitization.
     (req, res, next) => {
@@ -18,89 +18,89 @@ exports.books_create_post = [
         // Extract the validation errors from a request.
         const errors = validationResult(req);
         
-        // Create Books object with escaped and trimmed data
-        var books = new Books(
+        // Create School object with escaped and trimmed data
+        var school = new School(
             {
                 
-                id: req.body["id"],
+                first_name: req.body["first_name"],
                 
-                id1: req.body["id1"],
+                family_name: req.body["family_name"],
                 
             }
         );
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            res.render('books_form', { title: 'Create Books', books: books, errors: errors.array() });
+            res.render('form', { title: 'Create School', school: school, errors: errors.array() });
             return;
         }
         else {
             // Data from form is valid.
 
-            // Save books.
-            books.save(function (err) {
+            // Save school.
+            school.save(function (err) {
                 if (err) { return next(err); }
-                // Successful - redirect to new books record.
-                res.redirect(books.url);
+                // Successful - redirect to new school record.
+                res.redirect(school.url);
             });
         }
     }
 ];
 
 
-// Display Books delete form on GET.
-exports.books_delete_get = function (req, res, next) {
+// Display School delete form on GET.
+exports.school_delete_get = function (req, res, next) {
 
     async.parallel({
-        books: function (callback) {
-            Books.findById(req.params.id).exec(callback)
+        school: function (callback) {
+            School.findById(req.params.id).exec(callback)
         },
         
-        books_school: function (callback) {
-            School.find({ 'books': req.params.id }).exec(callback)
+        school_school: function (callback) {
+            School.find({ 'school': req.params.id }).exec(callback)
         },
-        books_subject: function (callback) {
-            Subject.find({ 'books': req.params.id }).exec(callback)
+        school_subject: function (callback) {
+            Subject.find({ 'school': req.params.id }).exec(callback)
         },
     }, function (err, results) {
         if (err) { return next(err); }
-        if (results.books == null) { // No results.
-            res.redirect('/books');
+        if (results.school == null) { // No results.
+            res.redirect('/school');
         }
         // Successful, so render.
-        res.render('books_delete', { title: 'Delete Books', books: results.books, books_subject: results.books_subject });
+        res.render('delete', { title: 'Delete School', school: results.school, school_subject: results.school_subject });
     });
 
 };
 
-// Handle Books delete on POST.
-exports.books_delete_post = function (req, res, next) {
+// Handle School delete on POST.
+exports.school_delete_post = function (req, res, next) {
 
     async.parallel({
-        books: function (callback) {
-            Books.findById(req.body.booksid).exec(callback)
+        school: function (callback) {
+            School.findById(req.body.schoolid).exec(callback)
         },
-        books_school: function (callback) {
-            Book.find({ 'books': req.body.booksid }).exec(callback)
+        school_school: function (callback) {
+            Book.find({ 'school': req.body.schoolid }).exec(callback)
         },
-        books_subject: function (callback) {
-            Book.find({ 'books': req.body.booksid }).exec(callback)
+        school_subject: function (callback) {
+            Book.find({ 'school': req.body.schoolid }).exec(callback)
         },
         
     }, function (err, results) {
         if (err) { return next(err); }
         // Success.
-        if (results.books_subject.length > 0) {
-            // Books has subject. Render in same way as for GET route.
-            res.render('books_delete', { title: 'Delete Books', books: results.books, books_subject: results.books_subject });
+        if (results.school_subject.length > 0) {
+            // School has subject. Render in same way as for GET route.
+            res.render('delete', { title: 'Delete School', school: results.school, school_subject: results.school_subject });
             return;
         }
         else {
-            // Books has no subject. Delete object and redirect to the list of bookss.
-            Books.findByIdAndRemove(req.body.booksid, function deleteBooks(err) {
+            // School has no subject. Delete object and redirect to the list of schools.
+            School.findByIdAndRemove(req.body.schoolid, function deleteSchool(err) {
                 if (err) { return next(err); }
-                // Success - go to books list.
-                res.redirect('/books')
+                // Success - go to school list.
+                res.redirect('/school')
             })
 
         }
@@ -109,69 +109,76 @@ exports.books_delete_post = function (req, res, next) {
 };
 
 
-// Display detail page for a specific books.
-exports.books_detail = function (req, res, next) {
+// Display detail page for a specific school.
+exports.school_detail = function (req, res, next) {
 
     async.parallel({
-        books: function (callback) {
-            books.findById(req.params.id)
+        school: function (callback) {
+            School.findById(req.params.id)
                 .exec(callback)
         },
         
-        books_school: function (callback) {
-            School.find({ 'books': req.params.id }, 'title summary')
+        school_school: function (callback) {
+            School.find({ 'school': req.params.id }, 'title summary')
                 .exec(callback)
         },
         
-        books_subject: function (callback) {
-            Subject.find({ 'books': req.params.id }, 'title summary')
+        school_subject: function (callback) {
+            Subject.find({ 'school': req.params.id }, 'title summary')
                 .exec(callback)
         },
         
     }, function (err, results) {
         if (err) { return next(err); } // Error in API usage.
-        if (results.books == null) { // No results.
-            var err = new Error('books not found');
+        if (results.school == null) { // No results.
+            var err = new Error('school not found');
             err.status = 404;
             return next(err);
         }
         // Successful, so render.
-        res.render('books_detail', { title: 'books Detail', books: results.books, books_books: results.books_books });
+        res.render('detail', { title: 'school Detail', school: results.school, school_books: results.school_books });
     });
 
 };
 
-// Display list of all Authors.
-exports.books_list = function (req, res, next) {
+exports.index = function(req, res) {
 
-    Books.find()
-        .sort([['<sort_prop>', 'ascending']])
-        .exec(function (err, list_authors) {
-            if (err) { return next(err); }
-            // Successful, so render.
-            res.render('books_list', { title: 'Books List', books_list: list_books });
-        })
-
+    async.parallel({
+        school_count: function(callback) {
+            School.countDocuments({},callback);
+        },
+        
+        school_count: function(callback) {
+            School.countDocuments({},callback);
+        },
+        
+        subject_count: function(callback) {
+            Subject.countDocuments({},callback);
+        },
+        
+    }, function(err, results) {
+        res.render('index', { title: 'Local Library Home', error: err, data: results });
+    });
 };
 
-// Display Books update form on GET.
-exports.books_update_get = function (req, res, next) {
+// Display School update form on GET.
+exports.school_update_get = function (req, res, next) {
 
-    Books.findById(req.params.id, function (err, books) {
+    School.findById(req.params.id, function (err, school) {
         if (err) { return next(err); }
-        if (books == null) { // No results.
-            var err = new Error('Books not found');
+        if (school == null) { // No results.
+            var err = new Error('School not found');
             err.status = 404;
             return next(err);
         }
         // Success.
-        res.render('books_form', { title: 'Update Books', books: books });
+        res.render('school_form', { title: 'Update School', school: school });
 
     });
 };
 
-// Handle Books update on POST.
-exports.books_update_post = [
+// Handle School update on POST.
+exports.school_update_post = [
 
     // Process request after validation and sanitization.
     (req, res, next) => {
@@ -179,28 +186,93 @@ exports.books_update_post = [
         // Extract the validation errors from a request.
         const errors = validationResult(req);
 
-        // Create Books object with escaped and trimmed data (and the old id!)
-        var books = new Books(
+        // Create School object with escaped and trimmed data (and the old id!)
+        var school = new School(
             {
                 
-                id: req.body["id"],
+                first_name: req.body["first_name"],
                 
-                id1: req.body["id1"],
+                family_name: req.body["family_name"],
                 
             }
         );
 
         if (!errors.isEmpty()) {
             // There are errors. Render the form again with sanitized values and error messages.
-            res.render('books_form', { title: 'Update Books', books: books, errors: errors.array() });
+            res.render('school_form', { title: 'Update School', school: school, errors: errors.array() });
             return;
         }
         else {
             // Data from form is valid. Update the record.
-            Books.findByIdAndUpdate(req.params.id, books, {}, function (err, thebooks) {
+            School.findByIdAndUpdate(req.params.id, school, {}, function (err, theschool) {
                 if (err) { return next(err); }
                 // Successful - redirect to genre detail page.
-                res.redirect(thebooks.url);
+                res.redirect(theschool.url);
+            });
+        }
+    }
+];
+
+// Display list of all Authors.
+exports.school_list = function (req, res, next) {
+
+    School.find()
+        .sort([['<sort_prop>', 'ascending']])
+        .exec(function (err, list_authors) {
+            if (err) { return next(err); }
+            // Successful, so render.
+            res.render('list', { title: 'School List', school_list: list_school });
+        })
+
+};
+
+// Display School update form on GET.
+exports.school_update_get = function (req, res, next) {
+
+    School.findById(req.params.id, function (err, school) {
+        if (err) { return next(err); }
+        if (school == null) { // No results.
+            var err = new Error('School not found');
+            err.status = 404;
+            return next(err);
+        }
+        // Success.
+        res.render('school_form', { title: 'Update School', school: school });
+
+    });
+};
+
+// Handle School update on POST.
+exports.school_update_post = [
+
+    // Process request after validation and sanitization.
+    (req, res, next) => {
+
+        // Extract the validation errors from a request.
+        const errors = validationResult(req);
+
+        // Create School object with escaped and trimmed data (and the old id!)
+        var school = new School(
+            {
+                
+                first_name: req.body["first_name"],
+                
+                family_name: req.body["family_name"],
+                
+            }
+        );
+
+        if (!errors.isEmpty()) {
+            // There are errors. Render the form again with sanitized values and error messages.
+            res.render('school_form', { title: 'Update School', school: school, errors: errors.array() });
+            return;
+        }
+        else {
+            // Data from form is valid. Update the record.
+            School.findByIdAndUpdate(req.params.id, school, {}, function (err, theschool) {
+                if (err) { return next(err); }
+                // Successful - redirect to genre detail page.
+                res.redirect(theschool.url);
             });
         }
     }

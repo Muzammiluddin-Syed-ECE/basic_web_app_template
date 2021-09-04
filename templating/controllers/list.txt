@@ -6,7 +6,7 @@ exports.<model>_list = function (req, res, next) {
         .exec(function (err, list_authors) {
             if (err) { return next(err); }
             // Successful, so render.
-            res.render('<model>_list', { title: '<model_cap> List', <model>_list: list_<model> });
+            res.render('list', { title: '<model_cap> List', <model>_list: list_<model> });
         })
 
 };

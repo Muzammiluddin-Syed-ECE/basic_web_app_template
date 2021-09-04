@@ -1,6 +1,6 @@
 // Display <model_cap> create form on GET.
 exports.<model>_create_get = function (req, res, next) {
-    res.render('<model>_form', { title: 'Create <model_cap>' });
+    res.render('form', { title: 'Create <model_cap>' });
 };
 
 // Handle <model_cap> create on POST.
@@ -23,7 +23,7 @@ exports.<model>_create_post = [
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
-            res.render('<model>_form', { title: 'Create <model_cap>', <model>: <model>, errors: errors.array() });
+            res.render('form', { title: 'Create <model_cap>', <model>: <model>, errors: errors.array() });
             return;
         }
         else {
